@@ -1,0 +1,40 @@
+package tasr;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class TASR {
+    private String message;
+    private final List<Observer> observers = new CopyOnWriteArrayList<>();
+    private int priority = 0;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getPriority(){
+        return priority;
+    }
+
+    public void setMessage(String message){
+        this.message = message;
+        priority = 0;
+        notifyObservers();
+    }
+
+    public void setMessage(String message, int priority) {
+        this.message = message;
+        this.priority = priority;
+        notifyObservers();
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : observers)
+            observer.update();
+    }
+}
